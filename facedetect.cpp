@@ -74,7 +74,7 @@ int main(int argc, const char** argv) {
 
 		} else if (argv[i][0] == '-') {
 
-			cerr << "warning;Unknown option " << argv[i] << endl;
+			cout << "warning;Unknown option " << argv[i] << endl;
 
 		} else
 			inputName.assign(argv[i]);
@@ -83,7 +83,7 @@ int main(int argc, const char** argv) {
 
 	if (cascadeName.empty()) {
 
-		cerr << "error;You must specify the cascade." << endl;
+		cout << "error;You must specify the cascade." << endl;
 		help();
 
 		return -1;
@@ -94,14 +94,14 @@ int main(int argc, const char** argv) {
 
 	if (!cascade.load(cascadeName)) {
 
-		cerr << "error;Could not load classifier cascade." << endl;
+		cout << "error;Could not load classifier cascade." << endl;
 
 		return -1;
 	}
 
 	if (inputName.empty()) {
 
-		cerr << "error;You must specify the file to process." << endl;
+		cout << "error;You must specify the file to process." << endl;
 		help();
 
 		return -1;
@@ -112,7 +112,7 @@ int main(int argc, const char** argv) {
 
 	if (image.empty()) {
 
-		cerr << "error;Could not load the file to process." << endl;
+		cout << "error;Could not load the file to process." << endl;
 
 		return -1;
 
