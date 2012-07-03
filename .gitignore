@@ -1,2 +1,7 @@
 *.c
 facedetect
+test/detected_faces
+test/source_faces_with_name
+test/sources
+test/facedetect-test
+test/facedetect-test.c
