@@ -1,4 +1,4 @@
-Simply Face Detection Program using OpenCV
+Simple Face Detection Program using OpenCV
 ==========================================
 
 This is a tiny program that uses OpenCV to detect people faces in a photo and outputs its
@@ -130,6 +130,38 @@ In /test/ folder there is a simple test suite to perform face detection on a set
 First you need to create a folder named /test/sources/ with the photos you want to process.
 
 Then you can use facedetect-test to perform face detection —the program will create /test/detected_faces/ folder, wich will have one or more folders inside it with photos that will have detected faces marked with rectangles.
+
+For example, calling the program this way
+
+.. parsed-literal::
+	
+	./facedetect-test --cascade="../haarcascade_frontalface_alt.xml" --cascade="../haarcascade_frontalface_alt2.xml" --scale=1 --scale=1.2
+
+it will perform 4 face detection tests, and you will have the results in detected_faces folder, like this:
+
+.. parsed-literal::
+	
+	detected_faces/
+	\|-- haarcascade_frontalface_alt.xml
+	\|   \`-- 1
+	\|       \|-- photo with detected faces.png
+	\|       \|-- ...
+	\|       \`-- ...
+	\|   \`-- 1.2
+	\|       \|-- photo with detected faces.png
+	\|       \|-- ...
+	\|       \`-- ...
+	\|-- haarcascade_frontalface_alt2.xml
+	\|   \`-- 1
+	\|       \|-- photo with detected faces.png
+	\|       \|-- ...
+	\|       \`-- ...
+	\|   \`-- 1.2
+	\|       \|-- photo with detected faces.png
+	\|       \|-- ...
+	\|       \`-- ...
+
+This test program can also export detected faces as PNG images to later use as training faces-database for face recognition training stage —you will see a new folder called faces if you use the --export-faces option.
 
 Usage
 -----
