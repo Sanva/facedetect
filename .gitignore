@@ -1,5 +1,7 @@
 *.c
 facedetect
+facerec
+facerec-train
 test/detected_faces
 test/source_faces_with_name
 test/sources
