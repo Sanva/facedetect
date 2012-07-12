@@ -1,16 +1,16 @@
-Simple Face Detection Program using OpenCV
-==========================================
+Simple Face Detection & Recognition Test Suite using OpenCV
+===========================================================
+
+.. contents:: Table of Contents
+
+----------
+facedetect
+----------
 
 This is a tiny program that uses OpenCV to detect people faces in a photo and outputs its
 geometries in a way that is easy to parse from other programs.
 
 Note that this program has been created from some sample program which at this time is included in the official OpenCV source code releases —you can find it in /samples/c/facedetect.cpp.
-
-.. contents:: Table of Contents
-
-------------
-Main Program
-------------
 
 Usage
 -----
@@ -121,9 +121,9 @@ Dependencies
 
 You need OpenCV installed to compile —and run— this program. The installation of OpenCV may vary depending of your system. Please refer to http://opencv.willowgarage.com/ to get more info.
 
-------------
-Test Program
-------------
+---------------------
+/test/facedetect-test
+---------------------
 
 In /test/ folder there is a simple test suite to perform face detection on a set of files.
 
@@ -177,3 +177,85 @@ Usage
 	  -c, --cascade=<cascade_path>     Cascade file to use. Specify it more than one time to perform one test per cascade file.
 	  -s, --scale=<image scale>        Scale to use. Specify it more than one time to perform one test per scale per cascade file.
 	  -e, --export-faces               If used, the program will export detected faces as image files.
+
+-------------
+facerec-train
+-------------
+
+With facerec-train you can easily train a face recognition model.
+
+I think that the easiest way to explain how to use the program is with an example, so here you have the steps to perform face recognition:
+
+#) Create a folder where you are going to create your face-samples database. For example /test/source_faces_with_name/.
+
+#) Put your face images in that folder. There should be image files with only the face of the person in it —you can use the files created by facedetect in /detected_faces/{cascade_file_name}/{scale_value}/faces/ if you use the --export-faces option. Each face file must have its name following this simple pattern: NAME_SOMETHING.EXT, where NAME is the name of the person, SOMETHING is some text to allow more than one person in the same folder, and EXT is the extension on the file —e.g. "png". So, two PNG files with my face on it could be named Valentín_0.png and Valentín_1.png. Please read the section about database-helper.sh if you want some scripting help to do this boring task.
+
+#) Resize all those face-files —if you used database-helper.sh they are already resized—, they must have exactly the same size. You have an example script to do this at /test/resize.sh —it processes PNG files, and you must have imagemagick installed to use it.
+
+	.. code:: bash
+		
+		for file in *.png; do convert "$file" -resize 100x100! "$file"; done
+
+#) Now you can call facerec-train <model.ext> <faces-folder>, in this example it could be something like
+	
+	.. parsed-literal::
+		
+		./facerec-train ./testModel.xml ./test/source_faces_with_name/
+		
+	, and the program will output all people it will use to train the model, with the label asigned to each 
+	person.
+	
+So, following this example you will end with a file named testModel.xml, which is the trained model's data.
+
+-------
+facerec
+-------
+
+Now, perform face recognition is pretty simple:
+
+#) First you need a face-sample —don't use one from your face-samples database, the program always guess who is the person in it. The image must have the same size of the face-sample images.
+
+#) Call facerec <model.ext> <face.ext>, in this example it could be something like
+	
+	.. parsed-literal::
+		
+		./facerec ./testModel.xml /home/valentin/Escritorio/some_face.png
+
+	, and the program will simply output the label of the person it thinks that face belongs to.
+
+Since testing face recognition accuracy using this program would be really boring, you
+have a helper script that is documented in the facerec-helper.sh section.
+
+I've found that there are good results with people having more than 40 face-samples in the training step.
+
+------------------------
+/test/database-helper.sh
+------------------------
+
+Please note that to use this script you need to have gpicview, zenity and imagemagick installed.
+
+The process of naming all the face-photos following the NAME_SOMETHING.EXT pattern could be really hard, so I've wrote this simple script to help in such process. The program only accepts one argument: The folder where there are the files to rename. For example, if you are in /test/ folder and have you images in /test/source_faces_with_name/, you can call the program this way
+
+.. parsed-literal::
+	
+	./database-helper.sh ./source_faces_with_name/
+
+, and it will show you each face-photo and a dialog to put the name of the person. The script will rename and resize it.
+
+-----------------------
+/test/facerec-helper.sh
+-----------------------
+
+Please note that to use this script you need to have gpicview and zenity installed.
+
+The aim of this program is to help in the process of perform face recognition on a set of face-photos to see how accurate facerec is with a given model. It takes 3 arguments: The folder with the photos, the facerec binary and the model.
+
+First of all, you need a set of face-photos —you can use, por example, the files created by facedetect in /detected_faces/{cascade_file_name}/{scale_value}/faces/ if you use the --export-faces option. Don't use face-photos that were included in the trained model, the program would always guess who are the people on them. These photos must have the same dimensions as those used to train the model —you can use /test/resize.sh to resize them.
+
+Then, you could call facerec-helper.sh, for example this way:
+
+.. parsed-literal::
+	
+	./facerec-helper.sh ./detected_faces/haarcascade_frontalface_alt.xml/1/faces/ ../facerec ../testModel.xml
+	
+, and it will show you each photo and a dialog with the predicted label. You should compare it with the people and labels list that facerec-train outputs just before training the model and press the dialog buttons accordingly. At the end of the process the script will output the accuracy, simply based on your answers about each photo.
