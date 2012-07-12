@@ -20,9 +20,10 @@ Usage
 	./facedetect --cascade="<cascade_path>" --scale="<image scale greater or equal to 1, try 1.3 for example>" filename
 
 Where
-	- <cascade_path> is the path to some OpenCV cascade XML file the program will use to achieve face detection.
-	- <image scale greater or equal to 1, try 1.3 for example> is the scale parameter to use.
-	- filename is the path to the file to process.
+
+- <cascade_path> is the path to some OpenCV cascade XML file the program will use to achieve face detection.
+- <image scale greater or equal to 1, try 1.3 for example> is the scale parameter to use.
+- filename is the path to the file to process.
 	
 Printed Values
 --------------
@@ -110,11 +111,11 @@ Output:
 	error;You must specify the cascade.
 	Usage:
 	./facedetect --cascade=<cascade_path> --scale=<image scale greater or equal to 1, try 1.3 for example> filename
-
+	
 	Example:
 	./facedetect --cascade="./data/haarcascades/haarcascade_frontalface_alt.xml" --scale=1.3 ./photo.jpg
-
-Using OpenCV version 2.4.0
+	
+	Using OpenCV version 2.4.0
 
 Dependencies
 ------------
@@ -197,14 +198,13 @@ I think that the easiest way to explain how to use the program is with an exampl
 		for file in *.png; do convert "$file" -resize 100x100! "$file"; done
 
 #) Now you can call facerec-train <model.ext> <faces-folder>, in this example it could be something like
+   
+   .. parsed-literal::
 	
-	.. parsed-literal::
-		
 		./facerec-train ./testModel.xml ./test/source_faces_with_name/
-		
-	, and the program will output all people it will use to train the model, with the label asigned to each 
-	person.
 	
+   , and the program will output all people it will use to train the model, with the label asigned to each person.
+
 So, following this example you will end with a file named testModel.xml, which is the trained model's data.
 
 -------
@@ -216,12 +216,12 @@ Now, perform face recognition is pretty simple:
 #) First you need a face-sample —don't use one from your face-samples database, the program always guess who is the person in it. The image must have the same size of the face-sample images.
 
 #) Call facerec <model.ext> <face.ext>, in this example it could be something like
-	
-	.. parsed-literal::
+   
+   .. parsed-literal::
 		
 		./facerec ./testModel.xml /home/valentin/Escritorio/some_face.png
 
-	, and the program will simply output the label of the person it thinks that face belongs to.
+   , and the program will simply output the label of the person it thinks that face belongs to.
 
 Since testing face recognition accuracy using this program would be really boring, you
 have a helper script that is documented in the facerec-helper.sh section.
