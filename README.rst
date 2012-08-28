@@ -192,8 +192,8 @@ I think that the easiest way to explain how to use the program is with an exampl
 #) Put your face images in that folder. There should be image files with only the face of the person in it —you can use the files created by facedetect in /detected_faces/{cascade_file_name}/{scale_value}/faces/ if you use the --export-faces option. Each face file must have its name following this simple pattern: NAME_SOMETHING.EXT, where NAME is the name of the person, SOMETHING is some text to allow more than one person in the same folder, and EXT is the extension on the file —e.g. "png". So, two PNG files with my face on it could be named Valentín_0.png and Valentín_1.png. Please read the section about database-helper.sh if you want some scripting help to do this boring task.
 
 #) Resize all those face-files —if you used database-helper.sh they are already resized—, they must have exactly the same size. You have an example script to do this at /test/resize.sh —it processes PNG files, and you must have imagemagick installed to use it.
-
-	.. code:: bash
+   
+   .. code:: bash
 		
 		for file in *.png; do convert "$file" -resize 100x100! "$file"; done
 
