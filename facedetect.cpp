@@ -94,7 +94,7 @@ int main(int argc, const char** argv) {
 
 	if (!cascade.load(cascadeName)) {
 
-		cout << "error;Could not load classifier cascade." << endl;
+		cout << "error;Could not load classifier cascade. Filename: \"" << cascadeName << "\"" << endl;
 
 		return -1;
 	}
@@ -112,7 +112,7 @@ int main(int argc, const char** argv) {
 
 	if (image.empty()) {
 
-		cout << "error;Could not load the file to process." << endl;
+		cout << "error;Could not load the file to process. Filename: \"" << inputName << "\"" << endl;
 
 		return -1;
 
